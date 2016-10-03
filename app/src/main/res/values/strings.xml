@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">CatMe</string>
+    <string name="title_activity_main">Cat me</string>
+    <string name="get_a_pic_now">Get a pic now :3</string>
+    <string name="by_categories">By Categories</string>
+    <string name="see_favorites">See Favorites</string>
+    <string name="vote_history">Vote History</string>
 </resources>
