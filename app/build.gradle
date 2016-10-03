@@ -18,7 +18,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    productFlavors{
+        paid{
+            applicationId 'es.alvaroweb.catme.flavors.paid'
+        }
+        free{
+            applicationId 'es.alvaroweb.catme.flavors.free'
+        }
+    }
 }
+
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -32,7 +43,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'net.simonvt.schematic:schematic:0.6.7'
     compile 'com.google.android.gms:play-services-ads:9.6.1'
-    compile 'com.google.android.gms:play-services-analytics:9.6.1'
+    freeCompile 'com.google.android.gms:play-services-analytics:9.6.1'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     apt 'net.simonvt.schematic:schematic-compiler:0.6.7'
