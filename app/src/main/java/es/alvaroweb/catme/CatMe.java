@@ -8,8 +8,6 @@ import android.app.Application;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 
-import static android.R.attr.start;
-
 /*
  * TODO: Create JavaDoc
  */
@@ -19,13 +17,13 @@ public class CatMe extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        startTracking();
     }
 
     public void startTracking(){
         if(mTracker == null) {
             GoogleAnalytics ga = GoogleAnalytics.getInstance(this);
-            mTracker = ga.newTracker(R.xml.track_app);
+            mTracker = ga.newTracker(BuildConfig.ANALYTICS_ID);
+            mTracker.enableAutoActivityTracking(true);
             ga.enableAutoActivityReports(this);
         }
     }
