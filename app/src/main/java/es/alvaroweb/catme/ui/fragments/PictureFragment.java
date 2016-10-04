@@ -14,6 +14,8 @@ import es.alvaroweb.catme.R;
  */
 public class PictureFragment extends Fragment {
 
+    public static final String CATEGORY_ARG = "category";
+
     public PictureFragment() {
     }
 

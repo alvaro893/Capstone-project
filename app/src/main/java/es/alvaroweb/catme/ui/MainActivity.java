@@ -9,10 +9,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import es.alvaroweb.catme.CatMe;
 import es.alvaroweb.catme.R;
-
+import es.alvaroweb.catme.ui.fragments.ListFragment;
+import es.alvaroweb.catme.ui.fragments.PictureFragment;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String NO_CATEGORY = "none";
+    private static final String FAVORITES_MODE = "favorites";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.now_button)
     public void buttonNowClick(){
-        startActivity(new Intent(this, PictureActivity.class));
+        Intent intent = new Intent(this, PictureActivity.class);
+        intent.putExtra(PictureFragment.CATEGORY_ARG, NO_CATEGORY);
+        startActivity(intent);
     }
 
     @OnClick(R.id.categories_button)
@@ -36,12 +42,16 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.favorites_button)
     public void buttonFavoritesClick(){
-        startActivity(new Intent(this, ListActivity.class).putExtra("test", "favorites"));
+        Intent intent = new Intent(this, ListActivity.class);
+        intent.putExtra(ListFragment.MODE_ARG, FAVORITES_MODE);
+        startActivity(intent);
     }
 
     @OnClick(R.id.vote_button)
     public void buttonVoteClick(){
-        startActivity(new Intent(this, ListActivity.class).putExtra("test", "votes"));
+        Intent intent = new Intent(this, ListActivity.class);
+        intent.putExtra(ListFragment.MODE_ARG, FAVORITES_MODE);
+        startActivity(intent);
     }
 
 }

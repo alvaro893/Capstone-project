@@ -14,6 +14,8 @@ import es.alvaroweb.catme.R;
  */
 public class ListFragment extends Fragment {
 
+    public static final String MODE_ARG = "mode";
+
     public ListFragment() {
     }
 
