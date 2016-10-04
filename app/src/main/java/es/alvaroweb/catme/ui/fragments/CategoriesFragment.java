@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +19,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.alvaroweb.catme.R;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
+import es.alvaroweb.catme.model.Categories;
 
 
 /**
@@ -46,14 +44,14 @@ public class CategoriesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_categories, container, false);
         ButterKnife.bind(this, root);
-        mAdapter = new CategoryAdapter(mActivity, new ArrayList<Category>());
+        mAdapter = new CategoryAdapter(mActivity, new ArrayList<Categories>());
         mListView.setAdapter(mAdapter);
         return root;
     }
 
-    private class CategoryAdapter extends ArrayAdapter<Category>{
+    private class CategoryAdapter extends ArrayAdapter<Categories>{
 
-        public CategoryAdapter(Context context, List<Category> list) {
+        public CategoryAdapter(Context context, List<Categories> list) {
             super(context, 0, list);
         }
 
