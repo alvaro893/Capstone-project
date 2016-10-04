@@ -17,10 +17,36 @@
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".ui.PictureActivity"
+            android:label="@string/title_activity_picture"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="es.alvaroweb.catme.ui.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.CategoriesActivity"
+            android:label="@string/title_activity_categories"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="es.alvaroweb.catme.ui.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.ListActivity"
+            android:label="@string/title_activity_list"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="es.alvaroweb.catme.ui.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
