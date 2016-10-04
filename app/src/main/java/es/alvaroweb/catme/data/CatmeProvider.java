@@ -13,7 +13,9 @@ import net.simonvt.schematic.annotation.TableEndpoint;
 /*
  * TODO: Create JavaDoc
  */
-@ContentProvider(authority = CatmeProvider.AUTHORITY, database = CatmeDatabase.class)
+@ContentProvider(
+        authority = CatmeProvider.AUTHORITY,
+        database = CatmeDatabase.class)
 public final class CatmeProvider {
 
     public static final String AUTHORITY = "es.alvaroweb.catme.data.CatmeProvider";

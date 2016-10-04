@@ -47,6 +47,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="es.alvaroweb.catme.ui.MainActivity" />
         </activity>
+        <provider
+            android:name=".data.generated.CatmeProvider"
+            android:authorities="es.alvaroweb.catme.data.CatmeProvider"
+            android:exported="false"/>
     </application>
 
 </manifest>
