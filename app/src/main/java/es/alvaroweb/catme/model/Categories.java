@@ -9,8 +9,24 @@ import org.simpleframework.xml.Root;
 
 import java.util.List;
 
-/*
- * TODO: Create JavaDoc
+/**
+ *  this class performs as an xml file like:
+ *
+ <response>
+    <data>
+    <categories>
+        <category>
+            <id>1</id>
+            <name>hats</name>
+        </category>
+        <category>
+            <id>2</id>
+            <name>space</name>
+         </category>
+        ....
+     </categories>
+    </data>
+</response>
  */
 @Root(name = "response")
 public class Categories {
@@ -22,7 +38,6 @@ public class Categories {
         @ElementList
         private List<Category> categories;
     }
-
 
     public List<Category> getCategories() {
         return data.categories;

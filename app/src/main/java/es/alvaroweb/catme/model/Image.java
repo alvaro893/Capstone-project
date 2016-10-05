@@ -15,10 +15,7 @@ public class Image {
     private String url;
 
     @Element
-    private int id;
-
-    @Element(name = "source_url")
-    private String sourceUrl;
+    private String id;
 
     @Element
     private String created;
@@ -33,13 +30,10 @@ public class Image {
         return url;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public String getSourceUrl() {
-        return sourceUrl;
-    }
 
     public String getCreated() {
         return created;
