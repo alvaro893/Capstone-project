@@ -1,0 +1,11 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="es.alvaroweb.catme">
+
+    <application
+        tools:replace="android:name"
+        android:name=".CatMeDebug">
+
+    </application>
+
+</manifest>
