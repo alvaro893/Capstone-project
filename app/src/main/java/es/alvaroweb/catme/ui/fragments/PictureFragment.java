@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.alvaroweb.catme.R;
@@ -26,6 +29,7 @@ public class PictureFragment extends Fragment implements SwipeDismissTouchListen
     private static final String DEBUG_TAG = PictureFragment.class.getSimpleName();
     private static final String URL_IMAGE_KEY = "url";
     @BindView(R.id.main_image_view) ImageView mainImage;
+    @BindView(R.id.adView) AdView mAdView;
 
     public static final String CATEGORY_ARG = "category";
     private String mCurrentUrl = "";
@@ -46,8 +50,15 @@ public class PictureFragment extends Fragment implements SwipeDismissTouchListen
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_picture, container, false);
         ButterKnife.bind(this, root);
+        setAds();
         mainImage.setOnTouchListener(new SwipeDismissTouchListener(mainImage, null, this));
         return root;
+    }
+
+    private void setAds() {
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     @Override

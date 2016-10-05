@@ -30,6 +30,7 @@
         ads:adSize="BANNER"
         ads:adUnitId="@string/banner_ad_unit_id"
         android:layout_below="@+id/include"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/advertisement"/>
 
 </RelativeLayout>
