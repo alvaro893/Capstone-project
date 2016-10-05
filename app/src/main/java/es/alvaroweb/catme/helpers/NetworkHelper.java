@@ -7,12 +7,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.ImageView;
 
 import es.alvaroweb.catme.data.CatmeDatabase;
 import es.alvaroweb.catme.data.CatmeProvider;
 import es.alvaroweb.catme.model.Categories;
 import es.alvaroweb.catme.model.Category;
-import es.alvaroweb.catme.model.GeneralResponse;
 import es.alvaroweb.catme.model.Image;
 import es.alvaroweb.catme.model.ResponseImages;
 import es.alvaroweb.catme.model.VoteResponse;
@@ -101,5 +101,23 @@ public class NetworkHelper {
                 logError(t);
             }
         }, imageId, score);
+    }
+
+    public static void loadImage(final Context context, String category, final ImageView mainImage) {
+        api.getImage(category, new Callback<ResponseImages>() {
+            @Override
+            public void onResponse(Call<ResponseImages> call, Response<ResponseImages> response) {
+                String url = "";
+                if(!(response.body().getImageList().isEmpty())){
+                    url = response.body().getImage(0).getUrl();
+                }
+                ImageHelper.setImage(context, mainImage, url, false);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseImages> call, Throwable t) {
+                logError(t);
+            }
+        });
     }
 }

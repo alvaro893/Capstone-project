@@ -16,7 +16,7 @@ import es.alvaroweb.catme.ui.fragments.PictureFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String NO_CATEGORY = "none";
+    public static final String NO_CATEGORY = "none";
     private static final String FAVORITES_MODE = "favorites";
 
     @Override

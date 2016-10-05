@@ -19,7 +19,6 @@ import static butterknife.ButterKnife.bind;
  * A placeholder fragment containing a simple view.
  */
 public class ListFragment extends Fragment {
-    @BindView(R.id.main_image_view)  ImageView mainImage;
 
     public static final String MODE_ARG = "mode";
 
@@ -31,7 +30,6 @@ public class ListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_list, container, false);
         bind(this, root);
-        ImageHelper.setImage(getActivity(), mainImage, "http://24.media.tumblr.com/tumblr_lknwy4X27H1qbvcv6o1_500.jpg",true);
         return root;
     }
 }

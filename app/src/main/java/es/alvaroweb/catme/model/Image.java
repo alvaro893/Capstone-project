@@ -9,7 +9,7 @@ import org.simpleframework.xml.Root;
 /*
  * TODO: Create JavaDoc
  */
-@Root
+@Root(strict = false)
 public class Image {
     @Element
     private String url;
@@ -17,13 +17,13 @@ public class Image {
     @Element
     private String id;
 
-    @Element
+    @Element(required = false)
     private String created;
 
-    @Element(name = "sub_id")
+    @Element(name = "sub_id", required = false)
     private String userId;
 
-    @Element
+    @Element(required = false)
     private int score;
 
     public String getUrl() {

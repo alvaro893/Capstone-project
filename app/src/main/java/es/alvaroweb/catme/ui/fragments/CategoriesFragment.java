@@ -2,6 +2,7 @@ package es.alvaroweb.catme.ui.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,12 +28,16 @@ import butterknife.ButterKnife;
 import es.alvaroweb.catme.R;
 import es.alvaroweb.catme.data.CatmeDatabase;
 import es.alvaroweb.catme.data.CatmeProvider;
+import es.alvaroweb.catme.ui.PictureActivity;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class CategoriesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class CategoriesFragment extends Fragment implements
+        LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemClickListener{
     private static final int CATEGORY_LIST_LOADER = 0;
     private static final String DEBUG_TAG = CategoriesFragment.class.getSimpleName();
     @BindView(R.id.categories_list_view) ListView mListView;
@@ -57,6 +63,7 @@ public class CategoriesFragment extends Fragment implements LoaderManager.Loader
         getLoaderManager().initLoader(CATEGORY_LIST_LOADER, null, this);
         mAdapter = new CategoryAdapter(mActivity, mCategoriesList);
         mListView.setAdapter(mAdapter);
+        mListView.setOnItemClickListener(this);
         return root;
     }
 
@@ -90,6 +97,16 @@ public class CategoriesFragment extends Fragment implements LoaderManager.Loader
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String category = mCategoriesList.get(position);
+        Log.d("test", category);
+        Intent intent = new Intent(getActivity(), PictureActivity.class);
+        intent.putExtra(PictureFragment.CATEGORY_ARG, category);
+        startActivity(intent);
     }
 
     class CategoryAdapter extends ArrayAdapter<String>{

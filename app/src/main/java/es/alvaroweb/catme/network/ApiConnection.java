@@ -4,10 +4,10 @@
 package es.alvaroweb.catme.network;
 
 import android.provider.Settings;
+import android.support.annotation.Nullable;
 
 import es.alvaroweb.catme.BuildConfig;
 import es.alvaroweb.catme.model.Categories;
-import es.alvaroweb.catme.model.GeneralResponse;
 import es.alvaroweb.catme.model.ResponseImages;
 import es.alvaroweb.catme.model.VoteResponse;
 import retrofit2.Callback;
@@ -54,5 +54,12 @@ public class ApiConnection {
 
     public void sendVotedImage(Callback<VoteResponse> callback, String imageId, int score) {
         mApiRoutes.sendVoteImage(API_KEY, imageId, USER_ID, score).enqueue(callback);
+    }
+
+    public void getImage(@Nullable String category, Callback<ResponseImages> callback) {
+        if(category == null){
+            mApiRoutes.getImages(API_KEY, "xml", USER_ID);
+        }
+        mApiRoutes.getImages(API_KEY, "xml", category, USER_ID).enqueue(callback);
     }
 }

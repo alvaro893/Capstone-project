@@ -20,6 +20,14 @@ public interface ApiRoutes {
                                    @Query("category") String category, @Query("sub_id") String subId,
                                    @Query("size") String size,@Query("results_per_page") int results);
 
+    @GET("/api/images/get")
+    Call<ResponseImages> getImages(@Query("api_key") String apiKey, @Query("format") String format,
+                                   @Query("category") String category, @Query("sub_id") String subId);
+
+    @GET("/api/images/get")
+    Call<ResponseImages> getImages(@Query("api_key") String apiKey, @Query("format") String format,
+                                   @Query("sub_id") String subId);
+
     @GET("api/images/getvotes")
     Call<ResponseImages> getVotedImages(@Query("api_key") String apiKey,
                                         @Query("sub_id") String subId);

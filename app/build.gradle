@@ -42,21 +42,23 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.jakewharton:butterknife:8.4.0'
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile ('com.squareup.retrofit2:converter-simplexml:2.1.0') {
+    compile('com.squareup.retrofit2:converter-simplexml:2.1.0') {
         exclude group: 'xpp3', module: 'xpp3'
         exclude group: 'stax', module: 'stax-api'
         exclude group: 'stax', module: 'stax'
     }
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'net.simonvt.schematic:schematic:0.6.7'
     compile 'com.google.android.gms:play-services-analytics:9.6.1'
     compile 'com.android.support:design:24.2.1'
-    debugCompile 'com.facebook.stetho:stetho:1.4.1'
+    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     apt 'net.simonvt.schematic:schematic-compiler:0.6.7'
+    debugCompile 'com.facebook.stetho:stetho:1.4.1'
     freeCompile 'com.google.android.gms:play-services-ads:9.6.1'
 }
