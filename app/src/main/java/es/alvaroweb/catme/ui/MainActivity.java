@@ -9,6 +9,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import es.alvaroweb.catme.CatMe;
 import es.alvaroweb.catme.R;
+import es.alvaroweb.catme.helpers.NetworkHelper;
 import es.alvaroweb.catme.ui.fragments.ListFragment;
 import es.alvaroweb.catme.ui.fragments.PictureFragment;
 
@@ -26,6 +27,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
+
+        if(savedInstanceState == null){
+            NetworkHelper.loadCategories(this);
+            NetworkHelper.loadImagesVoteData(this);
+        }
     }
 
     @OnClick(R.id.now_button)

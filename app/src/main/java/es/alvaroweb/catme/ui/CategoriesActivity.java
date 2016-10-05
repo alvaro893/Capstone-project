@@ -48,10 +48,10 @@ public class CategoriesActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 //        ApiConnection apiConnection = new ApiConnection(this);
-//        apiConnection.getCategories(new Callback<Categories>() {
+//        apiConnection.fetchCategories(new Callback<Categories>() {
 //            @Override
 //            public void onResponse(Call<Categories> call, Response<Categories> response) {
-//                Log.d("test", response.body().getCategories().get(4).getName());
+//                Log.d("test", response.body().fetchCategories().get(4).getName());
 //            }
 //
 //            @Override
