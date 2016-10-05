@@ -103,7 +103,8 @@ public class NetworkHelper {
         }, imageId, score);
     }
 
-    public static void loadImage(final Context context, String category, final ImageView mainImage) {
+    public static void loadImage(final Context context, String category, final ImageView mainImage,
+                                 final OnLoaded listener) {
         api.getImage(category, new Callback<ResponseImages>() {
             @Override
             public void onResponse(Call<ResponseImages> call, Response<ResponseImages> response) {
@@ -112,6 +113,7 @@ public class NetworkHelper {
                     url = response.body().getImage(0).getUrl();
                 }
                 ImageHelper.setImage(context, mainImage, url, false);
+                listener.loaded(url);
             }
 
             @Override
@@ -119,5 +121,9 @@ public class NetworkHelper {
                 logError(t);
             }
         });
+    }
+
+    public interface OnLoaded{
+        void loaded(String urlImage);
     }
 }
