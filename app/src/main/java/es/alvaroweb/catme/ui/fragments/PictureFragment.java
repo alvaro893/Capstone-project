@@ -14,8 +14,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -41,7 +42,7 @@ import static es.alvaroweb.catme.data.CatmeDatabase.ImageColumns.IS_FAVORITE;
  */
 public class PictureFragment extends Fragment implements
         SwipeDismissTouchListener.DismissCallbacks,
-        LoaderManager.LoaderCallbacks<Cursor>{
+        LoaderManager.LoaderCallbacks<Cursor> {
     private static final String DEBUG_TAG = PictureFragment.class.getSimpleName();
     private static final String URL_IMAGE_KEY = "url";
     private static final java.lang.String ID_IMAGE_KEY = "id";
@@ -50,6 +51,8 @@ public class PictureFragment extends Fragment implements
     @BindView(R.id.main_image_view) ImageView mainImage;
     @BindView(R.id.adView) AdView mAdView;
     @BindView(R.id.favorite_fab) FloatingActionButton mFavoriteFab;
+    @BindView(R.id.liked) ImageView likeIcon;
+    @BindView(R.id.not_liked) ImageView noLikedIcon;
 
 
     public static final String CATEGORY_ARG = "category";
@@ -66,7 +69,7 @@ public class PictureFragment extends Fragment implements
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mImage = new Image();
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             mImage.setUrl(savedInstanceState.getString(URL_IMAGE_KEY));
             mImage.setId(savedInstanceState.getString(ID_IMAGE_KEY));
 
@@ -93,9 +96,9 @@ public class PictureFragment extends Fragment implements
     @Override
     public void onResume() {
         super.onResume();
-        if(!mImage.getUrl().equals("")){
+        if (!mImage.getUrl().equals("")) {
             setImageFromSavedState();
-        }else{
+        } else {
             setImage();
         }
     }
@@ -113,7 +116,7 @@ public class PictureFragment extends Fragment implements
         super.onSaveInstanceState(outState);
     }
 
-    private void setImage(){
+    private void setImage() {
         String category = getCategory();
         NetworkHelper.loadImage(getActivity(), category, mainImage, new NetworkHelper.OnLoaded() {
             @Override
@@ -128,7 +131,7 @@ public class PictureFragment extends Fragment implements
     }
 
     private void initLoader() {
-        if(mLoader != null){
+        if (mLoader != null) {
             getLoaderManager().destroyLoader(FAVORITE_LOADER);
         }
         mLoader = getLoaderManager().restartLoader(FAVORITE_LOADER, null, PictureFragment.this);
@@ -137,7 +140,7 @@ public class PictureFragment extends Fragment implements
     private String getCategory() {
         Bundle extras = getActivity().getIntent().getExtras();
         String category = extras.getString(CATEGORY_ARG);
-        if(category != null && category.equals( MainActivity.NO_CATEGORY )){
+        if (category != null && category.equals(MainActivity.NO_CATEGORY)) {
             return null;
         }
         return category;
@@ -155,22 +158,26 @@ public class PictureFragment extends Fragment implements
         setImage();
         updateFavoriteFab();
         Log.d(DEBUG_TAG, "x:" + lastPosition);
-        if(lastPosition > 0f){
-            Toast.makeText(getActivity(), "right", Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(getActivity(), "left", Toast.LENGTH_SHORT).show();
+        if (lastPosition > 0f) {
+            //swiped to right
+            ContentHelper.setVote(getActivity().getContentResolver(), mImage, CatmeProvider.Images.VOTE_UP);
+            animateIcon(likeIcon);
 
+        } else {
+            //swiped to left
+            ContentHelper.setVote(getActivity().getContentResolver(), mImage, CatmeProvider.Images.VOTE_DOWN);
+            animateIcon(noLikedIcon);
         }
     }
     // image dismissable code END
 
     @OnClick(R.id.favorite_fab)
-    void favoriteFabClick(){
+    void favoriteFabClick() {
         String favoriteValue;
         // switch values
-        if(mIsFavorite = !mIsFavorite){
+        if (mIsFavorite = !mIsFavorite) {
             favoriteValue = CatmeProvider.Images.FAVORITE_TRUE;
-        }else{
+        } else {
             favoriteValue = CatmeProvider.Images.FAVORITE_FALSE;
         }
 
@@ -181,7 +188,7 @@ public class PictureFragment extends Fragment implements
     }
 
     @OnClick(R.id.share_fab)
-    void shareFabClick(){
+    void shareFabClick() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setType("image/jpeg");
         intent.setData(Uri.parse(mImage.getUrl()));
@@ -190,12 +197,12 @@ public class PictureFragment extends Fragment implements
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        switch(id){
-            case FAVORITE_LOADER:{
+        switch (id) {
+            case FAVORITE_LOADER: {
                 String selection = CatmeDatabase.ImageColumns.API_ID + "=?";
                 String[] arguments = new String[]{mImage.getId()};
                 return new CursorLoader(getActivity(),
-                        CatmeProvider.Images.withApiId(mImage.getId()),null,selection,arguments,null);
+                        CatmeProvider.Images.withApiId(mImage.getId()), null, selection, arguments, null);
             }
             default:
                 return null;
@@ -204,21 +211,21 @@ public class PictureFragment extends Fragment implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if(data != null && data.moveToFirst()){
+        if (data != null && data.moveToFirst()) {
             String favoriteValue = data.getString(data.getColumnIndex(
                     IS_FAVORITE));
             mIsFavorite = favoriteValue.equals(CatmeProvider.Images.FAVORITE_TRUE);
-        }else{
+        } else {
             mIsFavorite = false;
         }
-            updateFavoriteFab();
+        updateFavoriteFab();
 
     }
 
     private void updateFavoriteFab() {
-        if(mIsFavorite){
+        if (mIsFavorite) {
             mFavoriteFab.setImageResource(R.drawable.ic_star_yellow_24dp);
-        }else{
+        } else {
             mFavoriteFab.setImageResource(R.drawable.ic_start_white_24dp);
         }
 
@@ -226,5 +233,38 @@ public class PictureFragment extends Fragment implements
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+    }
+
+    private void animateIcon(View viewToAnimate) {
+
+        viewToAnimate.setVisibility(View.VISIBLE);
+
+        final float offset0 = 200f;
+        final float offset1 = 0f;
+        final float offset2 = -300f;
+        Interpolator interpolator =
+                AnimationUtils.loadInterpolator(getActivity(), android.R.interpolator.decelerate_quad);
+        Interpolator interpolator2 =
+                AnimationUtils.loadInterpolator(getActivity(), android.R.interpolator.accelerate_quad);
+
+        //initial conditions
+        viewToAnimate.setTranslationY(offset0);
+        viewToAnimate.setAlpha(1f);
+
+        // acelerate animation from 200 to 0 to -3000
+        viewToAnimate.animate()
+                .translationY(offset1)
+                .setInterpolator(interpolator)
+                .setDuration(250L)
+                .start();
+
+        viewToAnimate.setTranslationY(0f);
+
+        viewToAnimate.animate()
+                .translationY(offset2)
+                .alpha(0f)
+                .setInterpolator(interpolator2)
+                .setDuration(250L)
+                .start();
     }
 }

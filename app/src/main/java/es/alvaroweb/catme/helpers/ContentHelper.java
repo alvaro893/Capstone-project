@@ -81,4 +81,18 @@ public class ContentHelper {
             cr.insert(uri, values);
         }
     }
+
+    public static void setVote(ContentResolver cr, Image image, String vote) {
+        ContentValues values = new ContentValues();
+        Uri uri = CatmeProvider.Images.withApiId(image.getId());
+
+        values.put(CatmeDatabase.ImageColumns.API_ID, image.getId());
+        values.put(CatmeDatabase.ImageColumns.URL, image.getUrl());
+        values.put(CatmeDatabase.ImageColumns.VOTE, vote);
+
+        int update = cr.update(uri, values, null, null);
+        if(update < 1){
+            cr.insert(uri, values);
+        }
+    }
 }
