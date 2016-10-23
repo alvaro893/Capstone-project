@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(savedInstanceState == null){
             NetworkHelper.loadCategories(this);
-            NetworkHelper.loadImagesVoteData(this);
+            //NetworkHelper.loadImagesVoteData(this);
         }
     }
 

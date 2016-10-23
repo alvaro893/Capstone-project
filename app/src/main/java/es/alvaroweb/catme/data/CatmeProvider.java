@@ -44,10 +44,10 @@ public final class CatmeProvider {
     // for table images
     @TableEndpoint(table = CatmeDatabase.IMAGES)
     public static class Images {
-        public final static int FAVORITE_TRUE = 10;
-        public final static int FAVORITE_FALSE = 0;
-        public final static int VOTE_UP = 10;
-        public final static int VOTE_DOWN = 1;
+        public final static String FAVORITE_TRUE = "10";
+        public final static String FAVORITE_FALSE = "0";
+        public final static String VOTE_UP = "10";
+        public final static String VOTE_DOWN = "1";
         final static String PATH = CatmeDatabase.IMAGES;
 
         @ContentUri(
@@ -60,11 +60,11 @@ public final class CatmeProvider {
             name = "FAVORITE_VALUE",
             path = PATH + "/*",
             type = "vnd.android.cursor.item/image",
-            whereColumn = CatmeDatabase.ImageColumns.IS_FAVORITE,
+            whereColumn = CatmeDatabase.ImageColumns.API_ID,
             pathSegment = 1
         )
-        public static Uri withFavorite(String favoriteValue){
-            return buildUri(PATH, favoriteValue);
+        public static Uri withApiId(String apiId){
+            return buildUri(PATH, apiId);
         }
     }
 }

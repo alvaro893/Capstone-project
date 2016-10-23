@@ -13,6 +13,8 @@ import es.alvaroweb.catme.model.Image;
 import es.alvaroweb.catme.model.Vote;
 import es.alvaroweb.catme.model.VoteResponse;
 
+import static com.google.android.gms.analytics.internal.zzy.cr;
+
 /*
  * TODO: Create JavaDoc
  */
@@ -66,4 +68,17 @@ public class ContentHelper {
     }
 
 
+    public static void setFavorite(ContentResolver cr, String mCurrentId, String mCurrentUrl, String favoriteValue) {
+        ContentValues values = new ContentValues();
+        Uri uri = CatmeProvider.Images.withApiId(mCurrentId);
+
+        values.put(CatmeDatabase.ImageColumns.IS_FAVORITE, favoriteValue);
+        values.put(CatmeDatabase.ImageColumns.API_ID, mCurrentId);
+        values.put(CatmeDatabase.ImageColumns.URL, mCurrentUrl);
+
+        int update = cr.update(uri, values, null, null);
+        if(update < 1){
+            cr.insert(uri, values);
+        }
+    }
 }

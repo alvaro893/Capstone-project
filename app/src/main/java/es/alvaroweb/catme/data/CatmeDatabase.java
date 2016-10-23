@@ -11,8 +11,8 @@ import net.simonvt.schematic.annotation.NotNull;
 import net.simonvt.schematic.annotation.PrimaryKey;
 import net.simonvt.schematic.annotation.Table;
 
-import static android.R.attr.value;
-import static net.simonvt.schematic.annotation.DataType.Type.*;
+import static net.simonvt.schematic.annotation.DataType.Type.INTEGER;
+import static net.simonvt.schematic.annotation.DataType.Type.TEXT;
 
 @Database(version = CatmeDatabase.VERSION)
 public final class CatmeDatabase {
@@ -32,6 +32,7 @@ public final class CatmeDatabase {
         @DataType(TEXT) @NotNull String API_ID = "api_id";
         @DataType(INTEGER) @DefaultValue("0") String IS_FAVORITE = "is_favorite";
         @DataType(INTEGER) String VOTE = "vote";
+        @DataType(TEXT) @NotNull String URL = "url";
     }
 
 }

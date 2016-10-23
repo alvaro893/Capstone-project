@@ -109,11 +109,13 @@ public class NetworkHelper {
             @Override
             public void onResponse(Call<ResponseImages> call, Response<ResponseImages> response) {
                 String url = "";
+                String apiId = "";
                 if(!(response.body().getImageList().isEmpty())){
                     url = response.body().getImage(0).getUrl();
+                    apiId = response.body().getImage(0).getId();
                 }
                 ImageHelper.setImage(context, mainImage, url, false);
-                listener.loaded(url);
+                listener.loaded(url, apiId);
             }
 
             @Override
@@ -124,6 +126,6 @@ public class NetworkHelper {
     }
 
     public interface OnLoaded{
-        void loaded(String urlImage);
+        void loaded(String urlImage, String apiId);
     }
 }
