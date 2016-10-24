@@ -11,6 +11,7 @@ import net.simonvt.schematic.annotation.NotNull;
 import net.simonvt.schematic.annotation.PrimaryKey;
 import net.simonvt.schematic.annotation.Table;
 
+import static net.simonvt.schematic.annotation.DataType.Type.BLOB;
 import static net.simonvt.schematic.annotation.DataType.Type.INTEGER;
 import static net.simonvt.schematic.annotation.DataType.Type.TEXT;
 
@@ -33,6 +34,7 @@ public final class CatmeDatabase {
         @DataType(INTEGER) @DefaultValue("0") String IS_FAVORITE = "is_favorite";
         @DataType(INTEGER) String VOTE = "vote";
         @DataType(TEXT) @NotNull String URL = "url";
+        @DataType(BLOB) String THUMBNAIL = "thumbnail";
     }
 
 }

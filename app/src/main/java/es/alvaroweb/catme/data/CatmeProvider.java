@@ -57,7 +57,7 @@ public final class CatmeProvider {
         public static final Uri CONTENT_URI = buildUri(PATH);
 
         @InexactContentUri(
-            name = "FAVORITE_VALUE",
+            name = "ID_VALUE",
             path = PATH + "/*",
             type = "vnd.android.cursor.item/image",
             whereColumn = CatmeDatabase.ImageColumns.API_ID,
@@ -66,5 +66,27 @@ public final class CatmeProvider {
         public static Uri withApiId(String apiId){
             return buildUri(PATH, apiId);
         }
+
+//        @InexactContentUri(
+//                name = "VOTE_VALUE",
+//                path = PATH + "/*",
+//                type = "vnd.android.cursor.item/image",
+//                whereColumn = CatmeDatabase.ImageColumns.VOTE,
+//                pathSegment = 1
+//        )
+//        public static Uri withVote(String vote){
+//            return buildUri(PATH, vote);
+//        }
+//
+//        @InexactContentUri(
+//                name = "FAVORITE_VALUE",
+//                path = PATH + "/*",
+//                type = "vnd.android.cursor.item/image",
+//                whereColumn = CatmeDatabase.ImageColumns.IS_FAVORITE,
+//                pathSegment = 1
+//        )
+//        public static Uri withFavoriteValue(String favoriteValue){
+//            return buildUri(PATH, favoriteValue);
+//        }
     }
 }

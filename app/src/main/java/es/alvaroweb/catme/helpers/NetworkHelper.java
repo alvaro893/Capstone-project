@@ -55,7 +55,7 @@ public class NetworkHelper {
             @Override
             public void onResponse(Call<ResponseImages> call, Response<ResponseImages> response) {
                 for(Image i : response.body().getImageList()){
-                    ContentHelper.updateOrInsertImage(context.getContentResolver(), i);
+                    ContentHelper.updateOrInsertImage(context, i);
                 }
             }
 

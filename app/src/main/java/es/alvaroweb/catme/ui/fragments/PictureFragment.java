@@ -56,6 +56,7 @@ public class PictureFragment extends Fragment implements
 
 
     public static final String CATEGORY_ARG = "category";
+    public static final String NO_CATEGORY = "none";
     //private String mCurrentUrl = "";
     private Image mImage;
     private boolean mIsFavorite = false;
@@ -140,7 +141,7 @@ public class PictureFragment extends Fragment implements
     private String getCategory() {
         Bundle extras = getActivity().getIntent().getExtras();
         String category = extras.getString(CATEGORY_ARG);
-        if (category != null && category.equals(MainActivity.NO_CATEGORY)) {
+        if (category != null && category.equals(NO_CATEGORY)) {
             return null;
         }
         return category;
@@ -156,6 +157,7 @@ public class PictureFragment extends Fragment implements
     public void onDismiss(View view, Object token, float lastPosition) {
         mainImage.setVisibility(View.INVISIBLE);
         setImage();
+        ContentHelper.setBlob(getActivity(), mImage);
         updateFavoriteFab();
         Log.d(DEBUG_TAG, "x:" + lastPosition);
         if (lastPosition > 0f) {
@@ -180,10 +182,9 @@ public class PictureFragment extends Fragment implements
         } else {
             favoriteValue = CatmeProvider.Images.FAVORITE_FALSE;
         }
-
+        ContentHelper.setBlob(getActivity(), mImage);
         ContentHelper.setFavorite(getActivity().getContentResolver(),
                 mImage.getId(), mImage.getUrl(), favoriteValue);
-
 
     }
 

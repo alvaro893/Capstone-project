@@ -16,9 +16,6 @@ import es.alvaroweb.catme.ui.fragments.PictureFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String NO_CATEGORY = "none";
-    private static final String FAVORITES_MODE = "favorites";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.now_button)
     public void buttonNowClick(){
         Intent intent = new Intent(this, PictureActivity.class);
-        intent.putExtra(PictureFragment.CATEGORY_ARG, NO_CATEGORY);
+        intent.putExtra(PictureFragment.CATEGORY_ARG, PictureFragment.NO_CATEGORY);
         startActivity(intent);
     }
 
@@ -49,14 +46,14 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.favorites_button)
     public void buttonFavoritesClick(){
         Intent intent = new Intent(this, ListActivity.class);
-        intent.putExtra(ListFragment.MODE_ARG, FAVORITES_MODE);
+        intent.putExtra(ListFragment.MODE_ARG, ListFragment.FAVORITES_MODE);
         startActivity(intent);
     }
 
     @OnClick(R.id.vote_button)
     public void buttonVoteClick(){
         Intent intent = new Intent(this, ListActivity.class);
-        intent.putExtra(ListFragment.MODE_ARG, FAVORITES_MODE);
+        intent.putExtra(ListFragment.MODE_ARG, ListFragment.VOTE_MODE);
         startActivity(intent);
     }
 
