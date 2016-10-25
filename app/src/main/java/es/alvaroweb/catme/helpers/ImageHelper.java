@@ -25,6 +25,7 @@ public class ImageHelper {
         DrawableRequestBuilder<String> stringDrawableRequestBuilder = Glide
                 .with(context)
                 .load(urlToLoad)
+                .override(500, 500)
                 .placeholder(R.drawable.ic_image_placeholder)
                 .error(R.drawable.unload_image_24dp)
                 .fitCenter();
