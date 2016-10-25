@@ -50,6 +50,7 @@ public class ImageHelper {
         Glide.with(context)
                 .load(image.getUrl())
                 .asBitmap()
+                .override(100, 100)
                 .thumbnail(0.1f)
                 .skipMemoryCache(true)
                 .fitCenter()

@@ -102,14 +102,14 @@ public class ContentHelper {
         final Uri uri = CatmeProvider.Images.withApiId(image.getId());
         final ContentResolver cr = context.getContentResolver();
         final String thumbnailCol = CatmeDatabase.ImageColumns.THUMBNAIL;
-
+        final int quality = 50;
 
         ImageHelper.setImageToBlob(context, image, new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                 ContentValues values = new ContentValues();
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                resource.compress(Bitmap.CompressFormat.JPEG, 10, bos);
+                resource.compress(Bitmap.CompressFormat.JPEG, quality, bos);
                 byte[] blob = bos.toByteArray();
                 Log.d("bytes", "bytes:" + blob.length);
 
