@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 import android.widget.ImageView;
 
 import butterknife.BindView;
@@ -22,6 +23,7 @@ import butterknife.ButterKnife;
 import es.alvaroweb.catme.R;
 import es.alvaroweb.catme.data.CatmeDatabase;
 import es.alvaroweb.catme.data.CatmeProvider;
+import es.alvaroweb.catme.data.ImageLoader;
 import es.alvaroweb.catme.helpers.ImageHelper;
 import es.alvaroweb.catme.ui.PictureActivity;
 
@@ -38,6 +40,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     public static final String VOTE_MODE = "votes";
     private static final int LOADER = 0;
     private static final String DEBUG_TAG = ListFragment.class.getSimpleName();
+    public static final String PICTURE_POS = "PICTURE_ID";
     @BindView(R.id.recycle_view) RecyclerView mRecyclerView;
 
     public ListFragment() {
@@ -62,18 +65,9 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String mode = args.getString(MODE_ARG);
         switch (mode){
-            case FAVORITES_MODE:{
-                String selection = CatmeDatabase.ImageColumns.IS_FAVORITE + " =?";
-                String[] selectionArgs = new String[]{CatmeProvider.Images.FAVORITE_TRUE};
-                return new CursorLoader(getActivity(),
-                            CatmeProvider.Images.CONTENT_URI, null, selection, selectionArgs, null);
-            }
-            case VOTE_MODE:{
-                String selection = CatmeDatabase.ImageColumns.VOTE + " IS NOT NULL";
-                return new CursorLoader(getActivity(),
-                        CatmeProvider.Images.CONTENT_URI, null, selection, null, null);
-                 }
-            default:{return null;}
+            case FAVORITES_MODE: return ImageLoader.allFavoritesInstance(getActivity());
+            case VOTE_MODE: return ImageLoader.allVotesInstance(getActivity());
+            default: return null;
         }
     }
 
@@ -97,6 +91,8 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
 
         private final Cursor mCursor;
         private final Activity mContext;
+        private int mLastPosition = -1;
+        private float mOffset;
 
         AdapterList(Cursor data, Activity context) {
             this.mContext = context;
@@ -132,18 +128,22 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
                 String vote = mCursor.getString(mCursor.getColumnIndex(CatmeDatabase.ImageColumns.VOTE));
                 holder.voteIcon.setImageResource(getVotedImage(vote));
 
-                holder.rootView.setOnClickListener(itemClick(holder));
-
+                setAnimation(holder.rootView, position);
+                holder.rootView.setOnClickListener(itemClick(holder, position));
             }
         }
 
-        private View.OnClickListener itemClick(ViewHolder holder) {
+        private View.OnClickListener itemClick(ViewHolder holder, final int position) {
             return new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // do something here
+                    // open PictureFragment
+                    Bundle extras = getActivity().getIntent().getExtras();
+                    extras.putString(PictureFragment.CATEGORY_ARG, PictureFragment.NO_CATEGORY);
+                    extras.putInt(PICTURE_POS, position);
+
                     Intent intent = new Intent(getActivity(), PictureActivity.class);
-                    intent.putExtra(PictureFragment.CATEGORY_ARG, PictureFragment.NO_CATEGORY);
+                    intent.putExtras(extras);
                     startActivity(intent);
                 }
             };
@@ -166,21 +166,49 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
                 ButterKnife.bind(this, itemView);
             }
         }
-    }
 
-
-
-    private int getVotedImage(String vote) {
-        if (vote == null){
-            return R.drawable.ic_image_placeholder;
-        }
-        switch (vote){
-            case CatmeProvider.Images.VOTE_UP:
-                return R.drawable.ic_liked;
-            case CatmeProvider.Images.VOTE_DOWN:
-                return R.drawable.ic_no_liked;
-            default:
+        private int getVotedImage(String vote) {
+            if (vote == null){
                 return R.drawable.ic_image_placeholder;
+            }
+            switch (vote){
+                case CatmeProvider.Images.VOTE_UP:
+                    return R.drawable.ic_liked;
+                case CatmeProvider.Images.VOTE_DOWN:
+                    return R.drawable.ic_no_liked;
+                default:
+                    return R.drawable.ic_image_placeholder;
+            }
+        }
+
+        private void setAnimation(View viewToAnimate, int position){
+            // If the bound view wasn't previously displayed on screen, it's animated
+            if (position > mLastPosition){
+                //The view has to be invisible for the animation
+                //viewToAnimate.setVisibility(View.INVISIBLE);
+
+                mOffset = 200f;
+                Interpolator interpolator =
+                        AnimationUtils.loadInterpolator(mContext, android.R.interpolator.decelerate_cubic);
+
+
+                //Log.d(TAG, "position: " + position);
+                //viewToAnimate.setVisibility(View.VISIBLE);
+                viewToAnimate.setTranslationY(mOffset);
+                viewToAnimate.setAlpha(0f);
+                // then animate back to natural position
+                viewToAnimate.animate()
+                        .translationY(0f)
+                        .alpha(1f)
+                        .setInterpolator(interpolator)
+                        .setDuration(1000L)
+                        .start();
+                // increase the offset distance for the next view
+                mOffset *= 1.4f;
+
+                mLastPosition = position;
+            }
         }
     }
+
 }

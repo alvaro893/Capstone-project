@@ -57,7 +57,7 @@ public final class CatmeProvider {
         public static final Uri CONTENT_URI = buildUri(PATH);
 
         @InexactContentUri(
-            name = "ID_VALUE",
+            name = "API_ID_VALUE",
             path = PATH + "/*",
             type = "vnd.android.cursor.item/image",
             whereColumn = CatmeDatabase.ImageColumns.API_ID,

@@ -98,7 +98,7 @@ public class ContentHelper {
         insertOrUpdate(cr, uri, values, null, null);
     }
 
-    public static void setBlob(final Context context, Image image){
+    public static void insertThumbnail(final Context context, Image image){
         final Uri uri = CatmeProvider.Images.withApiId(image.getId());
         final ContentResolver cr = context.getContentResolver();
         final String thumbnailCol = CatmeDatabase.ImageColumns.THUMBNAIL;

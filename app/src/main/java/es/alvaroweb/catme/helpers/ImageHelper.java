@@ -5,7 +5,6 @@ package es.alvaroweb.catme.helpers;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.DrawableRequestBuilder;
