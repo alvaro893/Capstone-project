@@ -54,17 +54,31 @@
             android:name=".data.generated.CatmeProvider"
             android:authorities="es.alvaroweb.catme.data.CatmeProvider"
             android:exported="false" />
-        <!--delete exported-->
+        <!-- delete exported -->
         <activity
             android:name=".ui.TabletActivity"
-            android:label="@string/title_activity_tablet"
             android:exported="true"
+            android:label="@string/title_activity_tablet"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="es.alvaroweb.catme.ui.MainActivity" />
         </activity>
+
+        <receiver android:name=".widget.CatWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/cat_widget_info" />
+        </receiver>
+
+        <service
+            android:name=".widget.WidgetIntentService"
+            android:exported="false" />
     </application>
 
 </manifest>

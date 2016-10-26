@@ -14,4 +14,7 @@
     <string name="title_activity_tablet">TabletActivity</string>
     <string name="list_activity_title_fav">Your favorites</string>
     <string name="list_activity_title_votes">Your voted pictures</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="configure">Configure</string>
+    <string name="add_widget">Add widget</string>
 </resources>
