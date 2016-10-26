@@ -1,7 +1,7 @@
 package es.alvaroweb.catme.ui.fragments;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -40,6 +40,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     public static final String VOTE_MODE = "votes";
     private static final int LOADER = 0;
     private static final String DEBUG_TAG = ListFragment.class.getSimpleName();
+    private Callback mCallback;
     public static final String PICTURE_POS = "PICTURE_ID";
     @BindView(R.id.recycle_view) RecyclerView mRecyclerView;
 
@@ -49,7 +50,6 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -57,8 +57,19 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_list, container, false);
         bind(this, root);
-        getLoaderManager().initLoader(LOADER, getActivity().getIntent().getExtras(), this);
+        getLoaderManager().initLoader(LOADER, getArguments(), this);
         return root;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof Callback) {
+            mCallback = (Callback) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement callback");
+        }
     }
 
     @Override
@@ -67,8 +78,8 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         switch (mode){
             case FAVORITES_MODE: return ImageLoader.allFavoritesInstance(getActivity());
             case VOTE_MODE: return ImageLoader.allVotesInstance(getActivity());
-            default: return null;
         }
+        return null;
     }
 
     @Override
@@ -138,13 +149,10 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
                 @Override
                 public void onClick(View v) {
                     // open PictureFragment
-                    Bundle extras = getActivity().getIntent().getExtras();
+                    Bundle extras = getArguments();
                     extras.putString(PictureFragment.CATEGORY_ARG, PictureFragment.NO_CATEGORY);
                     extras.putInt(PICTURE_POS, position);
-
-                    Intent intent = new Intent(getActivity(), PictureActivity.class);
-                    intent.putExtras(extras);
-                    startActivity(intent);
+                    mCallback.itemClick(extras);
                 }
             };
         }
@@ -210,5 +218,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
             }
         }
     }
-
+    public interface Callback{
+        void itemClick(Bundle extras);
+    }
 }

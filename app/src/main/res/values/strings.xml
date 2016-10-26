@@ -11,4 +11,7 @@
     <string name="title_activity_list">ListActivity</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="advertisement">Advertisement</string>
+    <string name="title_activity_tablet">TabletActivity</string>
+    <string name="list_activity_title_fav">Your favorites</string>
+    <string name="list_activity_title_votes">Your voted pictures</string>
 </resources>

@@ -18,6 +18,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -48,10 +49,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="es.alvaroweb.catme.ui.MainActivity" />
         </activity>
+
         <provider
             android:name=".data.generated.CatmeProvider"
             android:authorities="es.alvaroweb.catme.data.CatmeProvider"
-            android:exported="false"/>
+            android:exported="false" />
+        <!--delete exported-->
+        <activity
+            android:name=".ui.TabletActivity"
+            android:label="@string/title_activity_tablet"
+            android:exported="true"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="es.alvaroweb.catme.ui.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

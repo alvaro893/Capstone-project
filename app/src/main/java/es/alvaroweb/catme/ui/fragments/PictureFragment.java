@@ -86,7 +86,7 @@ public class PictureFragment extends Fragment implements
     }
 
     private void setMode() {
-        mLastPosition = getActivity().getIntent().getIntExtra(ListFragment.PICTURE_POS, -1);
+        mLastPosition = getArguments().getInt(ListFragment.PICTURE_POS, -1);
         if (mLastPosition != -1) {
             mMode = GALLERY_MODE;
             getLoaderManager().initLoader(CURSOR_LOADER, null, this);
@@ -171,7 +171,7 @@ public class PictureFragment extends Fragment implements
     }
 
     private String getCategory() {
-        Bundle extras = getActivity().getIntent().getExtras();
+        Bundle extras = getArguments();
         String category = extras.getString(CATEGORY_ARG);
         if (category != null && category.equals(NO_CATEGORY)) {
             return null;
@@ -248,7 +248,7 @@ public class PictureFragment extends Fragment implements
                         CatmeProvider.Images.withApiId(mImage.getId()), null, selection, arguments, null);
             }
             case CURSOR_LOADER: {
-                String ListFragmentMode = getActivity().getIntent().getStringExtra(ListFragment.MODE_ARG);
+                String ListFragmentMode = getArguments().getString(ListFragment.MODE_ARG);
                 switch (ListFragmentMode) {
                     case ListFragment.FAVORITES_MODE:
                         return ImageLoader.allFavoritesInstance(getContext());
@@ -368,5 +368,9 @@ public class PictureFragment extends Fragment implements
                 .setInterpolator(interpolator2)
                 .setDuration(250L)
                 .start();
+    }
+
+    public interface Callback{
+
     }
 }

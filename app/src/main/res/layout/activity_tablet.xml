@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="es.alvaroweb.catme.ui.PictureActivity">
+    tools:context="es.alvaroweb.catme.ui.TabletActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -21,12 +21,14 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <include layout="@layout/content_tablet" />
 
-    <FrameLayout
-        android:id="@+id/fragment_picture_id"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:layout="@layout/fragment_picture"/>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/go_small_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@drawable/ic_small" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import butterknife.BindInt;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import es.alvaroweb.catme.CatMe;
@@ -16,15 +18,19 @@ import es.alvaroweb.catme.ui.fragments.PictureFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+    @BindInt(R.integer.screenCode) int mScreenCode;
+    @BindView(R.id.toolbar) Toolbar mToolbar;
+    private boolean mIsBigScreen;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((CatMe)getApplication()).startTracking();
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         ButterKnife.bind(this);
 
+        setSupportActionBar(mToolbar);
+        mIsBigScreen = mScreenCode > 0;
         if(savedInstanceState == null){
             NetworkHelper.loadCategories(this);
             //NetworkHelper.loadImagesVoteData(this);
@@ -45,14 +51,14 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.favorites_button)
     public void buttonFavoritesClick(){
-        Intent intent = new Intent(this, ListActivity.class);
+        Intent intent = new Intent(this, mIsBigScreen ? TabletActivity.class : ListActivity.class);
         intent.putExtra(ListFragment.MODE_ARG, ListFragment.FAVORITES_MODE);
         startActivity(intent);
     }
 
     @OnClick(R.id.vote_button)
     public void buttonVoteClick(){
-        Intent intent = new Intent(this, ListActivity.class);
+        Intent intent = new Intent(this, mIsBigScreen ? TabletActivity.class : ListActivity.class);
         intent.putExtra(ListFragment.MODE_ARG, ListFragment.VOTE_MODE);
         startActivity(intent);
     }
