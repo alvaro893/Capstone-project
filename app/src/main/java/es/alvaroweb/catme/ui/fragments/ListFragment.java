@@ -157,6 +157,15 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
             };
         }
 
+        // this fix animation issues by setting original alpha and Y-translation
+        @Override
+        public void onViewDetachedFromWindow(ViewHolder holder) {
+            super.onViewDetachedFromWindow(holder);
+            holder.rootView.clearAnimation();
+            holder.rootView.setAlpha(1f);
+            holder.rootView.setTranslationY(0f);
+        }
+
         @Override
         public int getItemCount() {
             return mCursor.getCount();
