@@ -127,4 +127,9 @@ public class ContentHelper {
             cr.insert(uri, values);
         }
     }
+
+    public static void deleteImageData(Context context) {
+        Uri uri = CatmeProvider.Images.CONTENT_URI;
+        context.getContentResolver().delete(uri,null,null);
+    }
 }
