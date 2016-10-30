@@ -122,6 +122,7 @@ public class PictureFragment extends Fragment implements
         super.onResume();
         switch (mMode){
             case VOTING_MODE:{
+                exitOnNetworkFailure(true);
                 if (mImage.getUrl().equals("")) {
                     setImageFromNetwork();
                 } else {
@@ -132,6 +133,7 @@ public class PictureFragment extends Fragment implements
                 setImageFromSavedState();
             }
         }
+       exitOnNetworkFailure(false);
     }
 
     private void setImageFromSavedState() {
@@ -150,6 +152,7 @@ public class PictureFragment extends Fragment implements
     }
 
     private void setImageFromNetwork() {
+        exitOnNetworkFailure(true);
         String category = getCategory();
         NetworkHelper.loadImage(getActivity(), category, mainImage, new NetworkHelper.OnLoaded() {
             @Override
@@ -161,6 +164,14 @@ public class PictureFragment extends Fragment implements
             }
         });
 
+    }
+
+    private void exitOnNetworkFailure(boolean exit){
+        if( !NetworkHelper.isNetworkAvailable(getContext()) ){
+            Toast.makeText(getContext(), R.string.no_network_warning, Toast.LENGTH_LONG).show();
+            if(exit)
+                getActivity().finish();
+        }
     }
 
     private void initLoader() {
