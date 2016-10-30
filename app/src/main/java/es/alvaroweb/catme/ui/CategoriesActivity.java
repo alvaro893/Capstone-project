@@ -37,34 +37,8 @@ public class CategoriesActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        ApiConnection apiConnection = new ApiConnection(this);
-//        apiConnection.fetchCategories(new Callback<Categories>() {
-//            @Override
-//            public void onResponse(Call<Categories> call, Response<Categories> response) {
-//                Log.d("test", response.body().fetchCategories().get(4).getName());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Categories> call, Throwable t) {
-//                Log.d("test", t.getMessage());
-//            }
-//        });
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put(CatmeDatabase.CategoriesColumns._ID, 6);
-//        contentValues.put(CatmeDatabase.CategoriesColumns.NAME, "tesst");
-//        int update = getContentResolver().update(CatmeProvider.Categories.CONTENT_URI,
-//                contentValues, null, null);
-//        Log.d(LOG_TAG, "updaet:" + update);
     }
 
 

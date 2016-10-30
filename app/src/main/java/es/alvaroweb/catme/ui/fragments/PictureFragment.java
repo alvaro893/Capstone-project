@@ -56,8 +56,9 @@ public class PictureFragment extends Fragment implements
     @BindView(R.id.main_image_view) ImageView mainImage;
     @BindView(R.id.adView) AdView mAdView;
     @BindView(R.id.favorite_fab) FloatingActionButton mFavoriteFab;
-    @BindView(R.id.liked) ImageView likeIcon;
-    @BindView(R.id.not_liked) ImageView noLikedIcon;
+    @BindView(R.id.liked) ImageView mLikeIcon;
+    @BindView(R.id.not_liked) ImageView mNoLikedIcon;
+    @BindView(R.id.info_bar) View mInfoBar;
 
 
     public static final String CATEGORY_ARG = "category";
@@ -68,6 +69,7 @@ public class PictureFragment extends Fragment implements
     private Cursor mCursor;
     private int mLastPosition = -1;
     private String mMode = VOTING_MODE; // default
+    private Toast noMorePicsToast;
 
     public PictureFragment() {
     }
@@ -109,6 +111,7 @@ public class PictureFragment extends Fragment implements
             }
         });
         updateFavoriteFab();
+        noMorePicsToast = Toast.makeText(getActivity(), R.string.no_more, Toast.LENGTH_SHORT);
         return root;
     }
 
@@ -128,9 +131,13 @@ public class PictureFragment extends Fragment implements
                 } else {
                     setImageFromSavedState();
                 }
+                mInfoBar.setVisibility(View.VISIBLE);
+                break;
             }
             case GALLERY_MODE:{
                 setImageFromSavedState();
+                mInfoBar.setVisibility(View.GONE);
+                break;
             }
         }
        exitOnNetworkFailure(false);
@@ -207,10 +214,10 @@ public class PictureFragment extends Fragment implements
                 ContentHelper.insertThumbnail(getActivity(), mImage);
                 if(swipedToRight){
                     ContentHelper.setVote(getActivity(), mImage, CatmeProvider.Images.VOTE_DOWN);
-                    animateIcon(noLikedIcon);
+                    animateIcon(mNoLikedIcon);
                 }else{
                     ContentHelper.setVote(getActivity(), mImage, CatmeProvider.Images.VOTE_UP);
-                    animateIcon(likeIcon);
+                    animateIcon(mLikeIcon);
                 }
                 break;
             }
@@ -262,8 +269,10 @@ public class PictureFragment extends Fragment implements
                 String ListFragmentMode = getArguments().getString(ListFragment.MODE_ARG);
                 switch (ListFragmentMode) {
                     case ListFragment.FAVORITES_MODE:
+                        getActivity().setTitle(R.string.list_activity_title_fav);
                         return ImageLoader.allFavoritesInstance(getContext());
                     case ListFragment.VOTE_MODE:
+                        getActivity().setTitle(R.string.list_activity_title_votes);
                         return ImageLoader.allVotesInstance(getContext());
                 }
             }
@@ -300,8 +309,6 @@ public class PictureFragment extends Fragment implements
             mCursor = data;
             if (mCursor.moveToPosition(mLastPosition)) {
                 setImageFromCursor();
-            }else{
-                Toast.makeText(getActivity(), "no more", Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -320,7 +327,7 @@ public class PictureFragment extends Fragment implements
         }else{
             mCursor.moveToPosition(mLastPosition);
             mainImage.setVisibility(View.VISIBLE);
-            Toast.makeText(getActivity(), "no more", Toast.LENGTH_SHORT).show();
+            noMorePicsToast.show();
         }
     }
 
@@ -331,7 +338,7 @@ public class PictureFragment extends Fragment implements
         }else{
             mCursor.moveToPosition(mLastPosition);
             mainImage.setVisibility(View.VISIBLE);
-            Toast.makeText(getActivity(), "no more", Toast.LENGTH_SHORT).show();
+            noMorePicsToast.show();
         }
     }
 

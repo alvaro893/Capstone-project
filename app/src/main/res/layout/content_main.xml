@@ -22,7 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
             android:layout_marginTop="@dimen/main_button_margin"
-            android:text="@string/get_a_pic_now"/>
+            android:text="@string/get_a_pic_now"
+            android:contentDescription="@string/get_a_pic_now"/>
 
         <Button
             android:id="@+id/categories_button"
@@ -30,7 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
             android:layout_marginTop="@dimen/main_button_margin"
-            android:text="@string/by_categories" />
+            android:text="@string/by_categories"
+            android:contentDescription="@string/by_categories"/>
 
         <Button
             android:id="@+id/favorites_button"
@@ -38,7 +40,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
             android:layout_marginTop="@dimen/main_button_margin"
-            android:text="@string/see_favorites" />
+            android:text="@string/see_favorites"
+            android:contentDescription="@string/see_favorites"/>
 
         <Button
             android:id="@+id/vote_button"
@@ -46,7 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
             android:layout_marginTop="@dimen/main_button_margin"
-            android:text="@string/vote_history" />
+            android:text="@string/vote_history"
+            android:contentDescription="@string/vote_history"/>
 
     <ImageView
         android:layout_width="match_parent"
@@ -55,6 +59,7 @@
         android:background="@android:color/transparent"
         android:src="@drawable/ic_cat_vector"
         android:id="@+id/imageButton"
+        android:contentDescription="@string/cat_icon"
         android:visibility="@integer/show_cat_vector"/>
 
 </LinearLayout>
