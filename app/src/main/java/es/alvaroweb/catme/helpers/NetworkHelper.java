@@ -92,8 +92,8 @@ public class NetworkHelper {
         api.sendVotedImage(new Callback<VoteResponse>() {
             @Override
             public void onResponse(Call<VoteResponse> call, Response<VoteResponse> response) {
-                ContentHelper.updateOrInsertVote(context.getContentResolver(), response.body());
-                Log.d(DEBUG_TAG, "vote image: " + response.body());
+                //ContentHelper.updateOrInsertVote(context.getContentResolver(), response.body());
+                Log.d(DEBUG_TAG, "vote image: " + response.body().getvote(0).getScore());
             }
 
             @Override

@@ -195,10 +195,10 @@ public class PictureFragment extends Fragment implements
                 setImageFromNetwork();
                 ContentHelper.insertThumbnail(getActivity(), mImage);
                 if(swipedToRight){
-                    ContentHelper.setVote(getActivity().getContentResolver(), mImage, CatmeProvider.Images.VOTE_DOWN);
+                    ContentHelper.setVote(getActivity(), mImage, CatmeProvider.Images.VOTE_DOWN);
                     animateIcon(noLikedIcon);
                 }else{
-                    ContentHelper.setVote(getActivity().getContentResolver(), mImage, CatmeProvider.Images.VOTE_UP);
+                    ContentHelper.setVote(getActivity(), mImage, CatmeProvider.Images.VOTE_UP);
                     animateIcon(likeIcon);
                 }
                 break;

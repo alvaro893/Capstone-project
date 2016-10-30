@@ -87,7 +87,7 @@ public class ContentHelper {
         insertOrUpdate(cr, uri, values, null, null);
     }
 
-    public static void setVote(ContentResolver cr, Image image, String vote) {
+    public static void setVote(Context context, Image image, String vote) {
         ContentValues values = new ContentValues();
         Uri uri = CatmeProvider.Images.withApiId(image.getId());
 
@@ -95,7 +95,8 @@ public class ContentHelper {
         values.put(CatmeDatabase.ImageColumns.URL, image.getUrl());
         values.put(CatmeDatabase.ImageColumns.VOTE, vote);
 
-        insertOrUpdate(cr, uri, values, null, null);
+        insertOrUpdate(context.getContentResolver(), uri, values, null, null);
+        NetworkHelper.voteImage(context, image.getId(), Integer.parseInt(vote));
     }
 
     public static void insertThumbnail(final Context context, Image image){
