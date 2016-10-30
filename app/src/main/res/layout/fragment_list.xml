@@ -19,7 +19,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="You don't have pictures yet"
         android:visibility="gone"
         android:id="@+id/no_pictures_text_view"/>
 
