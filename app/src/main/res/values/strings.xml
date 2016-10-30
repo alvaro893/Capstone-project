@@ -19,4 +19,6 @@
     <string name="add_widget">Add widget</string>
     <string name="no_network_warning">There is no network connection</string>
     <string name="delete_local_data">Delete local data</string>
+    <string name="no_favorites_warning">You don\'t have favorite pictures yet</string>
+    <string name="no_voted_pics_warning">You haven\'t voted any pictures yet</string>
 </resources>

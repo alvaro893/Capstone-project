@@ -8,13 +8,19 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="es.alvaroweb.catme.ui.fragments.ListFragment"
-    tools:showIn="@layout/activity_list">
+    tools:context="es.alvaroweb.catme.ui.fragments.ListFragment">
 
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recycle_view"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="You don't have pictures yet"
+        android:visibility="gone"
+        android:id="@+id/no_pictures_text_view"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,6 +44,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     private Callback mCallback;
     public static final String PICTURE_POS = "PICTURE_ID";
     @BindView(R.id.recycle_view) RecyclerView mRecyclerView;
+    @BindView(R.id.no_pictures_text_view) TextView noPicturesText;
 
     public ListFragment() {
     }
@@ -87,6 +89,14 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         AdapterList adapter = new AdapterList(data, getActivity());
         adapter.setHasStableIds(true);
         mRecyclerView.setAdapter(adapter);
+        if(adapter.getItemCount() < 1){
+            switch (getArguments().getString(MODE_ARG)){
+                case FAVORITES_MODE: noPicturesText.setText(R.string.no_favorites_warning); break;
+                case VOTE_MODE: noPicturesText.setText(R.string.no_voted_pics_warning); break;
+            }
+            noPicturesText.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
+        }
 
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -137,7 +147,12 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
                 }
 
                 String vote = mCursor.getString(mCursor.getColumnIndex(CatmeDatabase.ImageColumns.VOTE));
-                holder.voteIcon.setImageResource(getVotedImage(vote));
+                switch (getArguments().getString(MODE_ARG)){
+                    case VOTE_MODE: holder.voteIcon.setImageResource(getVotedImage(vote)); break;
+                    case FAVORITES_MODE:
+                        holder.voteIcon.setImageResource(R.drawable.ic_star_yellow_24dp); break;
+                }
+
 
                 setAnimation(holder.rootView, position);
                 holder.rootView.setOnClickListener(itemClick(holder, position));
