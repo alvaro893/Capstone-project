@@ -1,23 +1,17 @@
 package es.alvaroweb.catme.ui;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import es.alvaroweb.catme.R;
-import es.alvaroweb.catme.helpers.ImageHelper;
 import es.alvaroweb.catme.ui.fragments.PictureFragment;
 
 
 public class PictureActivity extends AppCompatActivity {
+
+    protected PictureFragment mPictureFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +24,16 @@ public class PictureActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if(savedInstanceState == null){
-            PictureFragment pictureFragment = new PictureFragment();
+            createPictureFragment();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_picture_id, pictureFragment)
+                    .add(R.id.fragment_picture_id, mPictureFragment)
             .commit();
-            pictureFragment.setArguments(getIntent().getExtras());
+            mPictureFragment.setArguments(getIntent().getExtras());
         }
+    }
+
+    protected void createPictureFragment(){
+        mPictureFragment = new PictureFragment();
     }
 
     /* Make up button behave like back button*/

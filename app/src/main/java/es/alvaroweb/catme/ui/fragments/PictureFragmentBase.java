@@ -19,9 +19,6 @@ import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -41,10 +38,10 @@ import static es.alvaroweb.catme.data.CatmeDatabase.ImageColumns.IS_FAVORITE;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class PictureFragment extends Fragment implements
+public class PictureFragmentBase extends Fragment implements
         SwipeDismissTouchListener.DismissCallbacks,
         LoaderManager.LoaderCallbacks<Cursor> {
-    private static final String DEBUG_TAG = PictureFragment.class.getSimpleName();
+    private static final String DEBUG_TAG = PictureFragmentBase.class.getSimpleName();
     private static final String URL_IMAGE_KEY = "url";
     private static final String ID_IMAGE_KEY = "id";
     private static final int FAVORITE_LOADER = 0;
@@ -54,7 +51,6 @@ public class PictureFragment extends Fragment implements
     private static final String GALLERY_MODE = "gallery_mode";
     private static final String LAST_CURSOR_POSITION = "position";
     @BindView(R.id.main_image_view) ImageView mainImage;
-    @BindView(R.id.adView) AdView mAdView;
     @BindView(R.id.favorite_fab) FloatingActionButton mFavoriteFab;
     @BindView(R.id.liked) ImageView mLikeIcon;
     @BindView(R.id.not_liked) ImageView mNoLikedIcon;
@@ -71,7 +67,7 @@ public class PictureFragment extends Fragment implements
     private String mMode = VOTING_MODE; // default
     private Toast noMorePicsToast;
 
-    public PictureFragment() {
+    public PictureFragmentBase() {
     }
 
     @Override
@@ -102,7 +98,6 @@ public class PictureFragment extends Fragment implements
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_picture, container, false);
         ButterKnife.bind(this, root);
-        setAds();
         mainImage.setOnTouchListener(new SwipeDismissTouchListener(mainImage, null, this));
         mainImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,10 +110,7 @@ public class PictureFragment extends Fragment implements
         return root;
     }
 
-    private void setAds() {
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-    }
+
 
     @Override
     public void onResume() {
@@ -146,7 +138,7 @@ public class PictureFragment extends Fragment implements
     private void setImageFromSavedState() {
         ImageHelper.setImage(getActivity(), mainImage, mImage.getUrl(), false);
         mainImage.setVisibility(View.VISIBLE);
-        mLoader = getLoaderManager().restartLoader(FAVORITE_LOADER, null, PictureFragment.this);
+        mLoader = getLoaderManager().restartLoader(FAVORITE_LOADER, null, PictureFragmentBase.this);
     }
 
     @Override
@@ -185,7 +177,7 @@ public class PictureFragment extends Fragment implements
         if (mLoader != null) {
             getLoaderManager().destroyLoader(FAVORITE_LOADER);
         }
-        mLoader = getLoaderManager().restartLoader(FAVORITE_LOADER, null, PictureFragment.this);
+        mLoader = getLoaderManager().restartLoader(FAVORITE_LOADER, null, PictureFragmentBase.this);
     }
 
     private String getCategory() {
